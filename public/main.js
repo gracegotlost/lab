@@ -9,7 +9,6 @@ $(function() {
 
   // Initialize variables
   var $window = $(window);
-  var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
 
@@ -21,30 +20,33 @@ $(function() {
   var connected = false;
   var typing = false;
   var lastTypingTime;
-  var $currentInput = $usernameInput.focus();
-
+  var radioInput;
   var socket = io();
 
   const addParticipantsMessage = (data) => {
     var message = '';
-    if (data.numUsers === 1) {
-      message += "there's 1 participant";
-    } else {
-      message += "there are " + data.numUsers + " participants";
+    // if (data.numUsers === 1) {
+    //   message += "there's 1 participant";
+    // } else {
+    //   message += "there are " + data.numUsers + " participants";
+    // }
+
+    if(username && data.username === username) {
+      message += "you logged in as " + data.username;
     }
     log(message);
   }
 
   // Sets the client's username
   const setUsername = () => {
-    username = cleanInput($usernameInput.val().trim());
+    radioInput = $("input[name='role']:checked");
+    username = radioInput.val();
 
     // If the username is valid
     if (username) {
       $loginPage.fadeOut();
       $chatPage.show();
       $loginPage.off('click');
-      $currentInput = $inputMessage.focus();
 
       // Tell the server your username
       socket.emit('add user', username);
@@ -191,10 +193,6 @@ $(function() {
   // Keyboard events
 
   $window.keydown(event => {
-    // Auto-focus the current input when a key is typed
-    if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-      $currentInput.focus();
-    }
     // When the client hits ENTER on their keyboard
     if (event.which === 13) {
       if (username) {
@@ -213,11 +211,6 @@ $(function() {
 
   // Click events
 
-  // Focus input when clicking anywhere on login page
-  $loginPage.click(() => {
-    $currentInput.focus();
-  });
-
   // Focus input when clicking on the message input's border
   $inputMessage.click(() => {
     $inputMessage.focus();
@@ -229,7 +222,7 @@ $(function() {
   socket.on('login', (data) => {
     connected = true;
     // Display the welcome message
-    var message = "Welcome to Socket.IO Chat – ";
+    var message = "ITX Messaging Platform – ";
     log(message, {
       prepend: true
     });
@@ -243,13 +236,13 @@ $(function() {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', (data) => {
-    log(data.username + ' joined');
+    log(data.username + ' logged in');
     addParticipantsMessage(data);
   });
 
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', (data) => {
-    log(data.username + ' left');
+    log(data.username + ' logged out');
     addParticipantsMessage(data);
     removeChatTyping(data);
   });

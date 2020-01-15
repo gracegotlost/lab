@@ -38,6 +38,7 @@ io.on('connection', (socket) => {
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
+      username: socket.username,
       numUsers: numUsers
     });
     // echo globally (all clients) that a person has connected

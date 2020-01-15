@@ -62,12 +62,11 @@ ul {
   width: 100%;
 }
 
-.login.page .form .usernameInput {
+.login.page .form .roleInput {
   background-color: transparent;
   border: none;
-  border-bottom: 2px solid #fff;
   outline: none;
-  padding-bottom: 15px;
+  padding: 15px;
   text-align: center;
   width: 400px;
 }
@@ -76,12 +75,12 @@ ul {
   font-size: 200%;
 }
 
-.login.page .usernameInput {
+.login.page .roleInput {
   font-size: 200%;
   letter-spacing: 3px;
 }
 
-.login.page .title, .login.page .usernameInput {
+.login.page .title, .login.page .roleInput {
   color: #fff;
   font-weight: 100;
 }
@@ -103,10 +102,11 @@ ul {
 }
 
 .log {
-  color: gray;
-  font-size: 70%;
+  color: darkgray;
+  font-size: 100%;
   margin: 5px;
   text-align: center;
+  font-weight: bold;
 }
 
 /* Messages */
