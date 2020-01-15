@@ -39,8 +39,9 @@ $(function() {
 
   // Sets the client's username
   const setUsername = () => {
+    var randomValue = Math.floor(Math.random() * Math.floor(100));
     radioInput = $("input[name='role']:checked");
-    username = radioInput.val();
+    username = radioInput.val() + randomValue;
 
     // If the username is valid
     if (username) {
